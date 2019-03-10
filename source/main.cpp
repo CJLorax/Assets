@@ -22,6 +22,8 @@
 	#include <SDL2/SDL_net.h>
 	#include <SDL2/SDL_mixer.h>
 	#include <SDL2/SDL_ttf.h>
+
+	#include <unistd.h>
 #endif
 
 #if defined(_WIN32) || (_WIN64)
@@ -53,6 +55,12 @@ int main(int argc, char* argv[]) {
 
 #if defined(__linux__)
 	cout << "Running on Ubuntu Linux..." << endl;
+
+	// get current working directory and append the images folder to it
+	string s_cwd(getcwd(NULL,0));
+	string s_cwd_images = s_cwd + "/Assets/images";
+
+	cout << s_cwd_images << endl;
 #endif
 
 #if defined(_WIN32) || (_WIN64)
