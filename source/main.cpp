@@ -263,8 +263,197 @@ int main(int argc, char* argv[]) {
 				} // end "instructions" while
 				break;
 
+			// PLAYERS 1
+			case PLAYERS1:
+
+				players1 = true;
+				cout << "The Game State is PLAYERS1" << endl;
+				cout << "Press the A Button for WIN screen" << endl;
+				cout << "Press the B Button for LOSE screen" << endl;
+				cout << " " << endl;
+
+				while(players1)
+				{
+					// check for input
+					if (SDL_PollEvent(&event)) {
+
+						if (event.type == SDL_QUIT) {
+							quit = true;
+							players1 = false;
+							break;
+						}
+
+						// test for controller input
+						switch(event.type)
+						{
+							case SDL_CONTROLLERBUTTONDOWN:
+								// checks to see if this is controller 0
+								if(event.cdevice.which == 0)
+								{
+									// if A button - WIN
+									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+									{
+										players1 = false;
+										gameState = WIN;
+										//cout << "TEST A" << endl;
+
+									}
+
+									// if B button - LOSE
+									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+									{
+										players1 = false;
+										gameState = LOSE;
+										//cout << "TEST B" << endl;
+
+									}
+								}
+
+								break;
+						} // end switch for players1 event.type
+					} // end poll event
+				} // end "players1" while
+				break;
 
 
+
+				// PLAYERS 2
+				case PLAYERS2:
+
+					players2 = true;
+					cout << "The Game State is PLAYERS2" << endl;
+					cout << "Press the A Button for WIN screen" << endl;
+					cout << "Press the B Button for LOSE screen" << endl;
+					cout << " " << endl;
+
+					while(players2)
+					{
+						// check for input
+						if (SDL_PollEvent(&event)) {
+
+							if (event.type == SDL_QUIT) {
+								quit = true;
+								players2 = false;
+								break;
+							}
+
+							// test for controller input
+							switch(event.type)
+							{
+								case SDL_CONTROLLERBUTTONDOWN:
+									// checks to see if this is controller 0
+									if(event.cdevice.which == 0)
+									{
+										// if A button - WIN
+										if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+										{
+											players2 = false;
+											gameState = WIN;
+											//cout << "TEST A" << endl;
+
+										}
+
+										// if B button - LOSE
+										if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+										{
+											players2 = false;
+											gameState = LOSE;
+											//cout << "TEST B" << endl;
+
+										}
+									}
+
+									break;
+							} // end switch for players2 event.type
+						} // end poll event
+					} // end "players2" while
+					break;
+
+
+					// WIN SCREEN
+					case WIN:
+
+						win = true;
+						cout << "The Game State is WIN" << endl;
+						cout << "Press the A Button for Main Menu" << endl;
+						cout << " " << endl;
+
+						while(win)
+						{
+							// check for input
+							if (SDL_PollEvent(&event)) {
+
+								if (event.type == SDL_QUIT) {
+									quit = true;
+									win = false;
+									break;
+								}
+
+								// test for controller input
+								switch(event.type)
+								{
+									case SDL_CONTROLLERBUTTONDOWN:
+										// checks to see if this is controller 0
+										if(event.cdevice.which == 0)
+										{
+											// if A button - Main Menu
+											if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+											{
+												win = false;
+												gameState = MENU;
+												//cout << "TEST A" << endl;
+
+											}
+										}
+
+										break;
+								} // end switch for win event.type
+							} // end poll event
+						} // end "win" while
+						break;
+
+
+						// LOSE SCREEN
+						case LOSE:
+
+							lose = true;
+							cout << "The Game State is LOSE" << endl;
+							cout << "Press the A Button for Main Menu" << endl;
+							cout << " " << endl;
+
+							while(lose)
+							{
+								// check for input
+								if (SDL_PollEvent(&event)) {
+
+									if (event.type == SDL_QUIT) {
+										quit = true;
+										lose = false;
+										break;
+									}
+
+									// test for controller input
+									switch(event.type)
+									{
+										case SDL_CONTROLLERBUTTONDOWN:
+											// checks to see if this is controller 0
+											if(event.cdevice.which == 0)
+											{
+												// if A button - Main Menu
+												if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+												{
+													lose = false;
+													gameState = MENU;
+													//cout << "TEST A" << endl;
+
+												}
+											}
+
+											break;
+									} // end switch for win event.type
+								} // end poll event
+							} // end "win" while
+							break;
 
 
 		} // end outer most switch
