@@ -242,13 +242,13 @@ int main(int argc, char* argv[]) {
     instructPos.h = 54;
     instructPos.x = 1024/2 - instructPos.w/2;
 
-    // instructions image
+    // player 1 image
     imagePath = s_cwd_images + "1playerN.png";
 
     // create a SDL surface
     surface = IMG_Load(imagePath.c_str());
 
-    // create instructions texture
+    // create player 1 texture
     SDL_Texture *player1Button;
 
     // place surface into the texture
@@ -259,6 +259,42 @@ int main(int argc, char* argv[]) {
     player1ButtonPos.w = 569;
     player1ButtonPos.h = 71;
     player1ButtonPos.x = 1024/2 - player1ButtonPos.w/2;
+
+    // player 2 image
+    imagePath = s_cwd_images + "2playersN.png";
+
+    // create a SDL surface
+    surface = IMG_Load(imagePath.c_str());
+
+    // create player 2 texture
+    SDL_Texture *player2Button;
+
+    // place surface into the texture
+    player2Button = SDL_CreateTextureFromSurface(renderer, surface);
+
+
+    player2ButtonPos.y = 445;
+    player2ButtonPos.w = 576;
+    player2ButtonPos.h = 71;
+    player2ButtonPos.x = 1024/2 - player2ButtonPos.w/2;
+
+    // quit image
+    imagePath = s_cwd_images + "quitN.png";
+
+    // create a SDL surface
+    surface = IMG_Load(imagePath.c_str());
+
+    // create quit texture
+    SDL_Texture *quitButton;
+
+    // place surface into the texture
+    quitButton = SDL_CreateTextureFromSurface(renderer, surface);
+
+
+    quitPos.y = 555;
+    quitPos.w = 354;
+    quitPos.h = 64;
+    quitPos.x = 1024/2 - quitPos.w/2;
 
 
     // ********** Menu Graphics *************
@@ -388,6 +424,12 @@ int main(int argc, char* argv[]) {
 
 					//prepare 1 player button
 					SDL_RenderCopy(renderer, player1Button, NULL, &player1ButtonPos);
+
+					//prepare 2 player button
+					SDL_RenderCopy(renderer, player2Button, NULL, &player2ButtonPos);
+
+					//prepare 2 player button
+					SDL_RenderCopy(renderer, quitButton, NULL, &quitPos);
 
 					// draw new info to the screen
 					SDL_RenderPresent(renderer);
@@ -633,35 +675,6 @@ int main(int argc, char* argv[]) {
 		} // end outer most switch
 	} // end outer most while
 
-
-
-
-/*
-// old visual code
-
-	// draw the screen
-	//clear the old buffer
-	SDL_RenderClear(renderer);
-
-	SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
-
-	// draw new info to the screen
-	SDL_RenderPresent(renderer);
-
-
-    bool isquit = false;
-    SDL_Event event2;
-    while (!isquit) {
-        if (SDL_PollEvent( & event2)) {
-            if (event2.type == SDL_QUIT) {
-                isquit = true;
-            }
-        }
-
-
-    }
-// old visual code
-*/
 
     // Close and destroy the window
     SDL_DestroyWindow(window);
