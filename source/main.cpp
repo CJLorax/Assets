@@ -158,6 +158,7 @@ int main(int argc, char* argv[]) {
 				cout << "Press the B Button for 1 Player Game" << endl;
 				cout << "Press the X Button for 2 Player Game" << endl;
 				cout << "Press the Y Button for Quit Game" << endl;
+				cout << " " << endl;
 
 				while(menu)
 				{
@@ -180,56 +181,94 @@ int main(int argc, char* argv[]) {
 									// if A button
 									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
 									{
-										//menu = false;
-										//gameState = INSTRUCTIONS;
-										cout << "TEST A" << endl;
+										menu = false;
+										gameState = INSTRUCTIONS;
+										//cout << "TEST A" << endl;
 
 									}
 
 									// if B button
 									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
 									{
-										//menu = false;
-										//gameState = INSTRUCTIONS;
-										cout << "TEST B" << endl;
+										menu = false;
+										gameState = PLAYERS1;
+										//cout << "TEST B" << endl;
 
 									}
 
 									// if X button
 									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_X)
 									{
-										//menu = false;
-										//gameState = INSTRUCTIONS;
-										cout << "TEST X" << endl;
+										menu = false;
+										gameState = PLAYERS2;
+										//cout << "TEST X" << endl;
 
 									}
 
 									// if Y button
 									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_Y)
 									{
-										//menu = false;
-										//gameState = INSTRUCTIONS;
-										cout << "TEST Y" << endl;
+										menu = false;
+										quit = true;
+										//cout << "TEST Y" << endl;
 
 									}
 								}
 
+								break;
+						} // end switch for menu event.type
+					} // end poll event
+				} // end "menu" while
+				break;
 
+			//INSTRUCTIONS SCREEN
+			case INSTRUCTIONS:
+
+				instructions = true;
+				cout << "The Game State is INSTRUCTIONS" << endl;
+				cout << "Press the A Button for Main Menu" << endl;
+				cout << " " << endl;
+
+				while(instructions)
+				{
+					// check for input
+					if (SDL_PollEvent(&event)) {
+
+						if (event.type == SDL_QUIT) {
+							quit = true;
+							instructions = false;
+							break;
 						}
-					}
 
-					// draw red square
-					//clear the old buffer
-					SDL_RenderClear(renderer);
+						// test for controller input
+						switch(event.type)
+						{
+							case SDL_CONTROLLERBUTTONDOWN:
+								// checks to see if this is controller 0
+								if(event.cdevice.which == 0)
+								{
+									// if A button - Main Menu
+									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+									{
+										instructions = false;
+										gameState = MENU;
+										//cout << "TEST A" << endl;
 
-					// draw the bkgd1
-					SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
+									}
+								}
 
-					// draw new info to the screen
-					SDL_RenderPresent(renderer);
-				}
-		}
-	}
+								break;
+						} // end switch for instructions event.type
+					} // end poll event
+				} // end "instructions" while
+				break;
+
+
+
+
+
+		} // end outer most switch
+	} // end outer most while
 
 
 
