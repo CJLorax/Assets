@@ -206,6 +206,7 @@ int main(int argc, char* argv[]) {
     bkgd2Pos.w = 1024;
     bkgd2Pos.h = 768;
 
+
     // title image
     string imagePath = s_cwd_images + "title.png";
 
@@ -217,6 +218,9 @@ int main(int argc, char* argv[]) {
 
     	// place surface into the texture
     title = SDL_CreateTextureFromSurface(renderer, surface);
+
+    // free the surface
+    SDL_FreeSurface(surface);
 
 
     titlePos.y = 40;
@@ -233,8 +237,26 @@ int main(int argc, char* argv[]) {
     // create instructions texture
     SDL_Texture *instruct;
 
-    	// place surface into the texture
+    // place surface into the texture
     instruct = SDL_CreateTextureFromSurface(renderer, surface);
+
+    // free the surface
+    SDL_FreeSurface(surface);
+
+	// player 1 over image
+	imagePath = s_cwd_images + "instructO.png";
+
+	// create a SDL surface
+	surface = IMG_Load(imagePath.c_str());
+
+	// create player 1 over texture
+	SDL_Texture *instructO;
+
+	// place surface into the texture
+	instructO = SDL_CreateTextureFromSurface(renderer, surface);
+
+	// free the surface
+	SDL_FreeSurface(surface);
 
 
     instructPos.y = 220;
@@ -254,6 +276,24 @@ int main(int argc, char* argv[]) {
     // place surface into the texture
     player1Button = SDL_CreateTextureFromSurface(renderer, surface);
 
+    // free the surface
+    SDL_FreeSurface(surface);
+
+    // player 1 over image
+    imagePath = s_cwd_images + "1playerO.png";
+
+    // create a SDL surface
+    surface = IMG_Load(imagePath.c_str());
+
+    // create player 1 over texture
+    SDL_Texture *player1OButton;
+
+    // place surface into the texture
+    player1OButton = SDL_CreateTextureFromSurface(renderer, surface);
+
+    // free the surface
+    SDL_FreeSurface(surface);
+
 
     player1ButtonPos.y = 330;
     player1ButtonPos.w = 569;
@@ -272,6 +312,24 @@ int main(int argc, char* argv[]) {
     // place surface into the texture
     player2Button = SDL_CreateTextureFromSurface(renderer, surface);
 
+    // free the surface
+    SDL_FreeSurface(surface);
+
+	// player 1 over image
+	imagePath = s_cwd_images + "2playersO.png";
+
+	// create a SDL surface
+	surface = IMG_Load(imagePath.c_str());
+
+	// create player 1 over texture
+	SDL_Texture *player2OButton;
+
+	// place surface into the texture
+	player2OButton = SDL_CreateTextureFromSurface(renderer, surface);
+
+	// free the surface
+	SDL_FreeSurface(surface);
+
 
     player2ButtonPos.y = 445;
     player2ButtonPos.w = 576;
@@ -285,10 +343,28 @@ int main(int argc, char* argv[]) {
     surface = IMG_Load(imagePath.c_str());
 
     // create quit texture
-    SDL_Texture *quitButton;
+    SDL_Texture *quitN;
 
     // place surface into the texture
-    quitButton = SDL_CreateTextureFromSurface(renderer, surface);
+    quitN = SDL_CreateTextureFromSurface(renderer, surface);
+
+    // free the surface
+    SDL_FreeSurface(surface);
+
+	// quit over image
+	imagePath = s_cwd_images + "quitO.png";
+
+	// create a SDL surface
+	surface = IMG_Load(imagePath.c_str());
+
+	// create player 1 over texture
+	SDL_Texture *quitO;
+
+	// place surface into the texture
+	quitO = SDL_CreateTextureFromSurface(renderer, surface);
+
+	// free the surface
+	SDL_FreeSurface(surface);
 
 
     quitPos.y = 555;
@@ -420,16 +496,16 @@ int main(int argc, char* argv[]) {
 					SDL_RenderCopy(renderer, title, NULL, &titlePos);
 
 					//prepare instructions
-					SDL_RenderCopy(renderer, instruct, NULL, &instructPos);
+					SDL_RenderCopy(renderer, instructO, NULL, &instructPos);
 
 					//prepare 1 player button
-					SDL_RenderCopy(renderer, player1Button, NULL, &player1ButtonPos);
+					SDL_RenderCopy(renderer, player1OButton, NULL, &player1ButtonPos);
 
 					//prepare 2 player button
-					SDL_RenderCopy(renderer, player2Button, NULL, &player2ButtonPos);
+					SDL_RenderCopy(renderer, player2OButton, NULL, &player2ButtonPos);
 
 					//prepare 2 player button
-					SDL_RenderCopy(renderer, quitButton, NULL, &quitPos);
+					SDL_RenderCopy(renderer, quitO, NULL, &quitPos);
 
 					// draw new info to the screen
 					SDL_RenderPresent(renderer);
