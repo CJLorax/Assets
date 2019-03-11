@@ -75,10 +75,6 @@ int main(int argc, char* argv[]) {
 
 #endif
 
-
-
-
-
     SDL_Window *window;                    // Declare a pointer
 
     // create a renderer variable
@@ -126,6 +122,120 @@ int main(int argc, char* argv[]) {
 	bkgd1Pos.w = 256;
 	bkgd1Pos.h = 256;
 
+	// set up a game controller variable
+	SDL_GameController *gameController = NULL;
+
+	// open the game controller
+	gameController = SDL_GameControllerOpen(0);
+
+	// turn on controller events
+	SDL_GameControllerEventState(SDL_ENABLE);
+
+	// SDL event to handle input
+	SDL_Event event;
+
+	// set up the enum to handle multiple states
+	enum GameState {MENU, INSTRUCTIONS, PLAYERS1, PLAYERS2, WIN, LOSE};
+
+	// var enum to track where we are in game
+	GameState gameState = MENU;
+
+	// boolean vars for the individual states
+	bool menu, instructions, players1, players2, win, lose, quit = false;
+
+	// enter program loop
+
+	// basic game loop
+	while(!quit)
+	{
+		switch(gameState)
+		{
+			case MENU:
+
+				menu = true;
+				cout << "The Game State is MENU" << endl;
+				cout << "Press the A Button for Instructions" << endl;
+				cout << "Press the B Button for 1 Player Game" << endl;
+				cout << "Press the X Button for 2 Player Game" << endl;
+				cout << "Press the Y Button for Quit Game" << endl;
+
+				while(menu)
+				{
+					// check for input
+					if (SDL_PollEvent(&event)) {
+
+						if (event.type == SDL_QUIT) {
+							quit = true;
+							menu = false;
+							break;
+						}
+
+						// test for controller input
+						switch(event.type)
+						{
+							case SDL_CONTROLLERBUTTONDOWN:
+								// checks to see if this is controller 0
+								if(event.cdevice.which == 0)
+								{
+									// if A button
+									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+									{
+										//menu = false;
+										//gameState = INSTRUCTIONS;
+										cout << "TEST A" << endl;
+
+									}
+
+									// if B button
+									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+									{
+										//menu = false;
+										//gameState = INSTRUCTIONS;
+										cout << "TEST B" << endl;
+
+									}
+
+									// if X button
+									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_X)
+									{
+										//menu = false;
+										//gameState = INSTRUCTIONS;
+										cout << "TEST X" << endl;
+
+									}
+
+									// if Y button
+									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_Y)
+									{
+										//menu = false;
+										//gameState = INSTRUCTIONS;
+										cout << "TEST Y" << endl;
+
+									}
+								}
+
+
+						}
+					}
+
+					// draw red square
+					//clear the old buffer
+					SDL_RenderClear(renderer);
+
+					// draw the bkgd1
+					SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
+
+					// draw new info to the screen
+					SDL_RenderPresent(renderer);
+				}
+		}
+	}
+
+
+
+
+/*
+// old visual code
 
 	// draw the screen
 	//clear the old buffer
@@ -138,16 +248,18 @@ int main(int argc, char* argv[]) {
 
 
     bool isquit = false;
-    SDL_Event event;
+    SDL_Event event2;
     while (!isquit) {
-        if (SDL_PollEvent( & event)) {
-            if (event.type == SDL_QUIT) {
+        if (SDL_PollEvent( & event2)) {
+            if (event2.type == SDL_QUIT) {
                 isquit = true;
             }
         }
 
 
     }
+// old visual code
+*/
 
     // Close and destroy the window
     SDL_DestroyWindow(window);
