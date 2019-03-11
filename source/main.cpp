@@ -42,6 +42,21 @@
 #include <iostream>
 using namespace std;
 
+// variables for the background movement and position
+int bkgdSpeed = 100;
+
+// create rectangles for the background 1 and 2 textures
+SDL_Rect bkgd1Pos, bkgd2Pos;
+
+// background float vars for movement
+float b1posX =  0, b1posY = 0;
+float b2posX =  0, b2posY = -768;
+
+// deltaTime init() - for frame rate ind.
+float deltaTime = 0.0;
+int thisTime = 0;
+int lastTime = 0;
+
 
 int main(int argc, char* argv[]) {
 
@@ -102,6 +117,8 @@ int main(int argc, char* argv[]) {
     // create renderer
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+
+// ********** red proto graphic *************
     // create a path to the background image
     string BKGDpath = s_cwd_images + "placeholder.png";
 
@@ -109,18 +126,57 @@ int main(int argc, char* argv[]) {
     SDL_Surface *surface = IMG_Load(BKGDpath.c_str());
 
     // create texture
-    SDL_Texture *bkgd1;
+    SDL_Texture *proto;
 
     // place surface into the texture
-    bkgd1 = SDL_CreateTextureFromSurface(renderer, surface);
+    proto = SDL_CreateTextureFromSurface(renderer, surface);
 
     // create the rectangle for the texture
-    SDL_Rect bkgd1Pos;
+    SDL_Rect protoPos;
 
-	bkgd1Pos.x = 0;
-	bkgd1Pos.y = 0;
-	bkgd1Pos.w = 256;
-	bkgd1Pos.h = 256;
+    protoPos.x = 0;
+    protoPos.y = 0;
+    protoPos.w = 256;
+    protoPos.h = 256;
+
+	// free the surface
+	SDL_FreeSurface(surface);
+
+// ********** red proto graphic *************
+
+	// background images
+	string bkgdPath = s_cwd_images + "bkgd.png";
+
+	// create a SDL surface
+	surface = IMG_Load(bkgdPath.c_str());
+
+	// create bkgd texture
+	SDL_Texture *bkgd1;
+
+	// place surface into the texture
+	bkgd1 = SDL_CreateTextureFromSurface(renderer, surface);
+
+	// create bkgd texture
+	SDL_Texture *bkgd2;
+
+	// place surface into the texture
+	bkgd2 = SDL_CreateTextureFromSurface(renderer, surface);
+
+	// free the surface
+	SDL_FreeSurface(surface);
+
+    bkgd1Pos.x = 0;
+    bkgd1Pos.y = 0;
+    bkgd1Pos.w = 1024;
+    bkgd1Pos.h = 768;
+
+    bkgd2Pos.x = 0;
+    bkgd2Pos.y = -768;
+    bkgd2Pos.w = 1024;
+    bkgd2Pos.h = 768;
+
+
+
 
 	// set up a game controller variable
 	SDL_GameController *gameController = NULL;
@@ -162,6 +218,11 @@ int main(int argc, char* argv[]) {
 
 				while(menu)
 				{
+					// create deltaTime
+					thisTime = SDL_GetTicks();
+					deltaTime = (float)(thisTime - lastTime)/1000;
+					lastTime = thisTime;
+
 					// check for input
 					if (SDL_PollEvent(&event)) {
 
@@ -214,10 +275,47 @@ int main(int argc, char* argv[]) {
 
 									}
 								}
-
 								break;
 						} // end switch for menu event.type
 					} // end poll event
+
+					// Update Section
+
+					// update bkgd1's float position
+					b1posY += (bkgdSpeed * 1) * deltaTime;
+					bkgd1Pos.y = (int)(b1posY + 0.5f);
+
+					// check to see if off bottom of the screen
+					if(bkgd1Pos.y >= 768)
+					{
+						bkgd1Pos.y = -768;
+						b1posY = bkgd1Pos.y;
+					}
+
+					// update bkgd2's float position
+					b2posY += (bkgdSpeed * 1) * deltaTime;
+					bkgd2Pos.y = (int)(b2posY + 0.5f);
+
+					// check to see if off bottom of the screen
+					if(bkgd2Pos.y >= 768)
+					{
+						bkgd2Pos.y = -768;
+						b2posY = bkgd2Pos.y;
+					}
+
+					// Draw Section
+					//clear the old buffer
+					SDL_RenderClear(renderer);
+
+					//prepare bkgd1
+					SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
+
+					//prepare bkgd2
+					SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
+
+					// draw new info to the screen
+					SDL_RenderPresent(renderer);
+
 				} // end "menu" while
 				break;
 
