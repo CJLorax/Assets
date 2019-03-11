@@ -57,6 +57,35 @@ float deltaTime = 0.0;
 int thisTime = 0;
 int lastTime = 0;
 
+// create rectangles for the menu graphics
+SDL_Rect titlePos, instructPos, player1ButtonPos, player2ButtonPos, quitPos;
+
+
+void updateBackground()
+{
+	// update bkgd1's float position
+	b1posY += (bkgdSpeed * 1) * deltaTime;
+	bkgd1Pos.y = (int)(b1posY + 0.5f);
+
+	// check to see if off bottom of the screen
+	if(bkgd1Pos.y >= 768)
+	{
+		bkgd1Pos.y = -768;
+		b1posY = bkgd1Pos.y;
+	}
+
+	// update bkgd2's float position
+	b2posY += (bkgdSpeed * 1) * deltaTime;
+	bkgd2Pos.y = (int)(b2posY + 0.5f);
+
+	// check to see if off bottom of the screen
+	if(bkgd2Pos.y >= 768)
+	{
+		bkgd2Pos.y = -768;
+		b2posY = bkgd2Pos.y;
+	}
+}
+
 
 int main(int argc, char* argv[]) {
 
@@ -144,6 +173,8 @@ int main(int argc, char* argv[]) {
 
 // ********** red proto graphic *************
 
+	// ********** Menu Graphics *************
+
 	// background images
 	string bkgdPath = s_cwd_images + "bkgd.png";
 
@@ -175,6 +206,62 @@ int main(int argc, char* argv[]) {
     bkgd2Pos.w = 1024;
     bkgd2Pos.h = 768;
 
+    // title image
+    string imagePath = s_cwd_images + "title.png";
+
+    // create a SDL surface
+    surface = IMG_Load(imagePath.c_str());
+
+    // create bkgd texture
+    SDL_Texture *title;
+
+    	// place surface into the texture
+    title = SDL_CreateTextureFromSurface(renderer, surface);
+
+
+    titlePos.y = 40;
+    titlePos.w = 499;
+    titlePos.h = 90;
+    titlePos.x = 1024/2 - titlePos.w/2;
+
+    // instructions image
+    imagePath = s_cwd_images + "instructN.png";
+
+    // create a SDL surface
+    surface = IMG_Load(imagePath.c_str());
+
+    // create instructions texture
+    SDL_Texture *instruct;
+
+    	// place surface into the texture
+    instruct = SDL_CreateTextureFromSurface(renderer, surface);
+
+
+    instructPos.y = 220;
+    instructPos.w = 402;
+    instructPos.h = 54;
+    instructPos.x = 1024/2 - instructPos.w/2;
+
+    // instructions image
+    imagePath = s_cwd_images + "1playerN.png";
+
+    // create a SDL surface
+    surface = IMG_Load(imagePath.c_str());
+
+    // create instructions texture
+    SDL_Texture *player1Button;
+
+    // place surface into the texture
+    player1Button = SDL_CreateTextureFromSurface(renderer, surface);
+
+
+    player1ButtonPos.y = 330;
+    player1ButtonPos.w = 569;
+    player1ButtonPos.h = 71;
+    player1ButtonPos.x = 1024/2 - player1ButtonPos.w/2;
+
+
+    // ********** Menu Graphics *************
 
 
 
@@ -280,28 +367,8 @@ int main(int argc, char* argv[]) {
 					} // end poll event
 
 					// Update Section
+					updateBackground();
 
-					// update bkgd1's float position
-					b1posY += (bkgdSpeed * 1) * deltaTime;
-					bkgd1Pos.y = (int)(b1posY + 0.5f);
-
-					// check to see if off bottom of the screen
-					if(bkgd1Pos.y >= 768)
-					{
-						bkgd1Pos.y = -768;
-						b1posY = bkgd1Pos.y;
-					}
-
-					// update bkgd2's float position
-					b2posY += (bkgdSpeed * 1) * deltaTime;
-					bkgd2Pos.y = (int)(b2posY + 0.5f);
-
-					// check to see if off bottom of the screen
-					if(bkgd2Pos.y >= 768)
-					{
-						bkgd2Pos.y = -768;
-						b2posY = bkgd2Pos.y;
-					}
 
 					// Draw Section
 					//clear the old buffer
@@ -312,6 +379,15 @@ int main(int argc, char* argv[]) {
 
 					//prepare bkgd2
 					SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
+
+					//prepare title
+					SDL_RenderCopy(renderer, title, NULL, &titlePos);
+
+					//prepare instructions
+					SDL_RenderCopy(renderer, instruct, NULL, &instructPos);
+
+					//prepare 1 player button
+					SDL_RenderCopy(renderer, player1Button, NULL, &player1ButtonPos);
 
 					// draw new info to the screen
 					SDL_RenderPresent(renderer);
