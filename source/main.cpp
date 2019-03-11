@@ -32,6 +32,9 @@
 	#include <SDL_net.h>
 	#include <SDL_mixer.h>
 	#include <SDL_ttf.h>
+
+	#include <direct.h>
+	#define getcwd _getcwd
 #endif
 
 
@@ -48,7 +51,7 @@ int main(int argc, char* argv[]) {
 
 	// get current working directory and append the images folder to it
 	string s_cwd(getcwd(NULL,0));
-	string s_cwd_images = s_cwd + "/Assets/images";
+	string s_cwd_images = s_cwd + "/Assets/images/";
 
 	cout << s_cwd_images << endl;
 #endif
@@ -58,13 +61,18 @@ int main(int argc, char* argv[]) {
 
 	// get current working directory and append the images folder to it
 	string s_cwd(getcwd(NULL,0));
-	string s_cwd_images = s_cwd + "/Assets/images";
+	string s_cwd_images = s_cwd + "/Assets/images/";
 
 	cout << s_cwd_images << endl;
 #endif
 
 #if defined(_WIN32) || (_WIN64)
 	cout << "Running on Windows 10..." << endl;
+
+	// get current working directory and append the images folder to it
+	string s_cwd(getcwd(NULL, 0));
+	string s_cwd_images = s_cwd + "\\Assets\\images\\";
+
 #endif
 
 
@@ -99,7 +107,7 @@ int main(int argc, char* argv[]) {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     // create a path to the background image
-    string BKGDpath = s_cwd_images + "/placeholder.png";
+    string BKGDpath = s_cwd_images + "placeholder.png";
 
     // create a SDL surface
     SDL_Surface *surface = IMG_Load(BKGDpath.c_str());
