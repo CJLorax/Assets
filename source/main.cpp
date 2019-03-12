@@ -172,7 +172,7 @@ void updateCursor(float deltaTime)
 // vars for cursor rollover
 bool players1Over = false, players2Over = false, instructionsOver = false, quitOver = false, menuOver = false;
 
-
+#include "player.h"
 
 int main(int argc, char* argv[]) {
 
@@ -232,6 +232,8 @@ int main(int argc, char* argv[]) {
 
     // create renderer
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+    Player player1 = Player(renderer, 0, s_cwd_images.c_str(), 250.0, 500.0);
 
 
 // ********** red proto graphic *************
@@ -627,12 +629,12 @@ int main(int argc, char* argv[]) {
 			case MENU:
 
 				menu = true;
-				cout << "The Game State is MENU" << endl;
+/*				cout << "The Game State is MENU" << endl;
 				cout << "Press the A Button for Instructions" << endl;
 				cout << "Press the B Button for 1 Player Game" << endl;
 				cout << "Press the X Button for 2 Player Game" << endl;
 				cout << "Press the Y Button for Quit Game" << endl;
-				cout << " " << endl;
+				cout << " " << endl;*/
 
 				while(menu)
 				{
@@ -775,9 +777,9 @@ int main(int argc, char* argv[]) {
 			case INSTRUCTIONS:
 
 				instructions = true;
-				cout << "The Game State is INSTRUCTIONS" << endl;
+/*				cout << "The Game State is INSTRUCTIONS" << endl;
 				cout << "Press the A Button for Main Menu" << endl;
-				cout << " " << endl;
+				cout << " " << endl;*/
 
 				while(instructions)
 				{
@@ -870,10 +872,10 @@ int main(int argc, char* argv[]) {
 			case PLAYERS1:
 
 				players1 = true;
-				cout << "The Game State is PLAYERS1" << endl;
+/*				cout << "The Game State is PLAYERS1" << endl;
 				cout << "Press the A Button for WIN screen" << endl;
 				cout << "Press the B Button for LOSE screen" << endl;
-				cout << " " << endl;
+				cout << " " << endl;*/
 
 				while(players1)
 				{
@@ -900,7 +902,7 @@ int main(int argc, char* argv[]) {
 								if(event.cdevice.which == 0)
 								{
 									// if A button - WIN
-									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_X)
 									{
 										players1 = false;
 										gameState = WIN;
@@ -909,22 +911,32 @@ int main(int argc, char* argv[]) {
 									}
 
 									// if B button - LOSE
-									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_Y)
 									{
 										players1 = false;
 										gameState = LOSE;
 										//cout << "TEST B" << endl;
 
 									}
+
+									player1.OnControllerButton(event.cbutton);
 								}
 
 								break;
+
+							case SDL_CONTROLLERAXISMOTION:
+
+									player1.OnControllerAxis(event.caxis);
+
+									break;
 						} // end switch for players1 event.type
 					} // end poll event
 
 
 					// Update Section
 					updateBackground(deltaTime);
+
+					player1.Update(deltaTime);
 
 
 					// Draw Section
@@ -936,6 +948,8 @@ int main(int argc, char* argv[]) {
 
 					//prepare bkgd2
 					SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
+
+					player1.Draw(renderer);
 
 					//prepare title
 					SDL_RenderCopy(renderer, player1Button, NULL, &player1ButtonPos);
@@ -952,10 +966,10 @@ int main(int argc, char* argv[]) {
 				case PLAYERS2:
 
 					players2 = true;
-					cout << "The Game State is PLAYERS2" << endl;
-					cout << "Press the A Button for WIN screen" << endl;
-					cout << "Press the B Button for LOSE screen" << endl;
-					cout << " " << endl;
+//					cout << "The Game State is PLAYERS2" << endl;
+//					cout << "Press the A Button for WIN screen" << endl;
+//					cout << "Press the B Button for LOSE screen" << endl;
+//					cout << " " << endl;
 
 					while(players2)
 					{
@@ -1033,9 +1047,9 @@ int main(int argc, char* argv[]) {
 					case WIN:
 
 						win = true;
-						cout << "The Game State is WIN" << endl;
+/*						cout << "The Game State is WIN" << endl;
 						cout << "Press the A Button for Main Menu" << endl;
-						cout << " " << endl;
+						cout << " " << endl;*/
 
 						while(win)
 						{
@@ -1129,9 +1143,9 @@ int main(int argc, char* argv[]) {
 						case LOSE:
 
 							lose = true;
-							cout << "The Game State is LOSE" << endl;
+/*							cout << "The Game State is LOSE" << endl;
 							cout << "Press the A Button for Main Menu" << endl;
-							cout << " " << endl;
+							cout << " " << endl;*/
 
 							while(lose)
 							{
