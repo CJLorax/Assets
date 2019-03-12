@@ -372,6 +372,36 @@ int main(int argc, char* argv[]) {
     quitPos.h = 64;
     quitPos.x = 1024/2 - quitPos.w/2;
 
+    // quit over image
+    	imagePath = s_cwd_images + "cursor.png";
+
+    	// create a SDL surface
+    	surface = IMG_Load(imagePath.c_str());
+
+    	// create player 1 over texture
+    	SDL_Texture *cursor;
+
+    	// place surface into the texture
+    	cursor = SDL_CreateTextureFromSurface(renderer, surface);
+
+    	// free the surface
+    	SDL_FreeSurface(surface);
+
+    	SDL_Rect cursorPos, activePos;
+
+    	cursorPos.x = 0;
+    	cursorPos.y = 0;
+    	cursorPos.w = 96;
+    	cursorPos.h = 108;
+
+    	activePos.x = 10;
+    	activePos.y = 10;
+    	activePos.w = 10;
+    	activePos.h = 10;
+
+    	int cursorSpeed = 400;
+
+
 
     // ********** Menu Graphics *************
 
@@ -496,16 +526,19 @@ int main(int argc, char* argv[]) {
 					SDL_RenderCopy(renderer, title, NULL, &titlePos);
 
 					//prepare instructions
-					SDL_RenderCopy(renderer, instructO, NULL, &instructPos);
+					SDL_RenderCopy(renderer, instruct, NULL, &instructPos);
 
 					//prepare 1 player button
-					SDL_RenderCopy(renderer, player1OButton, NULL, &player1ButtonPos);
+					SDL_RenderCopy(renderer, player1Button, NULL, &player1ButtonPos);
 
 					//prepare 2 player button
-					SDL_RenderCopy(renderer, player2OButton, NULL, &player2ButtonPos);
+					SDL_RenderCopy(renderer, player2Button, NULL, &player2ButtonPos);
 
-					//prepare 2 player button
-					SDL_RenderCopy(renderer, quitO, NULL, &quitPos);
+					//prepare quit button
+					SDL_RenderCopy(renderer, quitN, NULL, &quitPos);
+
+					//prepare cursor
+					SDL_RenderCopy(renderer, cursor, NULL, &cursorPos);
 
 					// draw new info to the screen
 					SDL_RenderPresent(renderer);
