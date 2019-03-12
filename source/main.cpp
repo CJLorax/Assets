@@ -529,7 +529,7 @@ int main(int argc, char* argv[]) {
 	SDL_Rect menuPos;
 
 	menuPos.x = 793;
-	menuPos.y = 703;
+	menuPos.y = 670;
 	menuPos.w = 214;
 	menuPos.h = 42;
 
@@ -660,37 +660,27 @@ int main(int argc, char* argv[]) {
 									// if A button
 									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
 									{
-										menu = false;
-										gameState = INSTRUCTIONS;
-										//cout << "TEST A" << endl;
 
-									}
-
-									// if B button
-									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
-									{
-										menu = false;
-										gameState = PLAYERS1;
-										//cout << "TEST B" << endl;
-
-									}
-
-									// if X button
-									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_X)
-									{
-										menu = false;
-										gameState = PLAYERS2;
-										//cout << "TEST X" << endl;
-
-									}
-
-									// if Y button
-									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_Y)
-									{
-										menu = false;
-										quit = true;
-										//cout << "TEST Y" << endl;
-
+										if(players1Over){
+											menu = false;
+											gameState = PLAYERS1;
+											players1Over = false;
+										}
+										if(players2Over){
+											menu = false;
+											gameState = PLAYERS2;
+											players2Over = false;
+										}
+										if(instructionsOver){
+											menu = false;
+											gameState = INSTRUCTIONS;
+											instructionsOver = false;
+										}
+										if(quitOver){
+											menu = false;
+											quit = true;
+											quitOver = false;
+										}
 									}
 								}
 								break;
@@ -818,10 +808,17 @@ int main(int argc, char* argv[]) {
 									{
 										instructions = false;
 										gameState = MENU;
+										menuOver = false;
 										//cout << "TEST A" << endl;
 
 									}
 								}
+
+								break;
+
+							case SDL_CONTROLLERAXISMOTION:
+
+								moveCursor(event.caxis);
 
 								break;
 						} // end switch for instructions event.type
@@ -829,6 +826,11 @@ int main(int argc, char* argv[]) {
 
 					// Update Section
 					updateBackground(deltaTime);
+
+					updateCursor(deltaTime);
+
+					// check for collision between cursor and buttons
+					menuOver = SDL_HasIntersection(&activePos, &menuPos);
 
 
 					// Draw Section
@@ -844,8 +846,15 @@ int main(int argc, char* argv[]) {
 					//prepare title
 					SDL_RenderCopy(renderer, instructText, NULL, &instructTextPos);
 
-					//prepare title
-					SDL_RenderCopy(renderer, menuSmallN, NULL, &menuPos);
+					if(menuOver)
+					{
+						//prepare quit button
+						SDL_RenderCopy(renderer, menuSmallO, NULL, &menuPos);
+					}else
+					{
+						//prepare quit button
+						SDL_RenderCopy(renderer, menuSmallN, NULL, &menuPos);
+					}
 
 					//prepare cursor
 					SDL_RenderCopy(renderer, cursor, NULL, &cursorPos);
