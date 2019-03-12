@@ -61,7 +61,7 @@ int lastTime = 0;
 SDL_Rect titlePos, instructPos, player1ButtonPos, player2ButtonPos, quitPos;
 
 
-void updateBackground()
+void updateBackground(float deltaTime)
 {
 	// update bkgd1's float position
 	b1posY += (bkgdSpeed * 1) * deltaTime;
@@ -85,6 +85,93 @@ void updateBackground()
 		b2posY = bkgd2Pos.y;
 	}
 }
+
+
+
+// analog joystick deadzone
+const int JOYSTICK_DEAD_ZONE = 8000;
+
+// joysticks direction vars
+float xDir, yDir;
+
+// cursor floats for movement
+float pos_X, pos_Y;
+
+SDL_Rect cursorPos, activePos;
+
+int cursorSpeed = 400;
+
+void moveCursor(const SDL_ControllerAxisEvent event)
+{
+
+	if( event.axis == 0)
+	{
+		if(event.value < -JOYSTICK_DEAD_ZONE)
+		{
+			xDir = -1.0f;
+
+		}else if(event.value > JOYSTICK_DEAD_ZONE)
+		{
+			xDir = 1.0f;
+
+		}else
+		{
+			xDir = 0.0f;
+		}
+	}
+
+	if( event.axis == 1)
+	{
+		if(event.value < -JOYSTICK_DEAD_ZONE)
+		{
+			yDir = -1.0f;
+
+		}else if(event.value > JOYSTICK_DEAD_ZONE)
+		{
+			yDir = 1.0f;
+
+		}else
+		{
+			yDir = 0.0f;
+		}
+	}
+}
+
+void updateCursor(float deltaTime)
+{
+	pos_X += (cursorSpeed * xDir) * deltaTime;
+	pos_Y += (cursorSpeed * yDir) * deltaTime;
+
+	cursorPos.x = (int)(pos_X + 0.5f);
+	cursorPos.y = (int)(pos_Y + 0.5f);
+
+	activePos.x = cursorPos.x;
+	activePos.y = cursorPos.y;
+
+	if(cursorPos.x < 0){
+		cursorPos.x = 0;
+		pos_X = cursorPos.x;
+	}
+
+	if(cursorPos.x > 1024 - cursorPos.w){
+		cursorPos.x = 1024 - cursorPos.w;
+		pos_X = cursorPos.x;
+	}
+
+	if(cursorPos.y < 0){
+		cursorPos.y = 0;
+		pos_Y = cursorPos.y;
+	}
+
+	if(cursorPos.y > 768 - cursorPos.h){
+		cursorPos.y = 768 - cursorPos.h;
+		pos_Y = cursorPos.y;
+	}
+}
+
+// vars for cursor rollover
+bool players1Over = false, players2Over = false, instructionsOver = false, quitOver = false, menuOver = false;
+
 
 
 int main(int argc, char* argv[]) {
@@ -387,7 +474,7 @@ int main(int argc, char* argv[]) {
 	// free the surface
 	SDL_FreeSurface(surface);
 
-	SDL_Rect cursorPos, activePos;
+
 
 	cursorPos.x = 0;
 	cursorPos.y = 0;
@@ -399,7 +486,6 @@ int main(int argc, char* argv[]) {
 	activePos.w = 10;
 	activePos.h = 10;
 
-	int cursorSpeed = 400;
 
 	// quit over image
 	imagePath = s_cwd_images + "instructText.png";
@@ -608,12 +694,30 @@ int main(int argc, char* argv[]) {
 									}
 								}
 								break;
+
+							case SDL_CONTROLLERAXISMOTION:
+
+								moveCursor(event.caxis);
+
+								break;
+
+
+
 						} // end switch for menu event.type
 					} // end poll event
 
 					// Update Section
-					updateBackground();
+					updateBackground(deltaTime);
 
+					updateCursor(deltaTime);
+
+					//bool players1Over = false, players2Over = false, instructions2Over = false, quitOver = false, menuOver = false;
+
+					// check for collision between cursor and buttons
+					players1Over = SDL_HasIntersection(&activePos, &player1ButtonPos);
+					players2Over = SDL_HasIntersection(&activePos, &player2ButtonPos);
+					instructionsOver = SDL_HasIntersection(&activePos, &instructPos);
+					quitOver = SDL_HasIntersection(&activePos, &quitPos);
 
 					// Draw Section
 					//clear the old buffer
@@ -628,17 +732,45 @@ int main(int argc, char* argv[]) {
 					//prepare title
 					SDL_RenderCopy(renderer, title, NULL, &titlePos);
 
-					//prepare instructions
-					SDL_RenderCopy(renderer, instruct, NULL, &instructPos);
+					if(instructionsOver)
+					{
+						//prepare instructions
+						SDL_RenderCopy(renderer, instructO, NULL, &instructPos);
+					}else
+					{
+						//prepare instructions
+						SDL_RenderCopy(renderer, instruct, NULL, &instructPos);
+					}
 
-					//prepare 1 player button
-					SDL_RenderCopy(renderer, player1Button, NULL, &player1ButtonPos);
+					if(players1Over)
+					{
+						//prepare 1 player button
+						SDL_RenderCopy(renderer, player1OButton, NULL, &player1ButtonPos);
+					}else
+					{
+						//prepare 1 player button
+						SDL_RenderCopy(renderer, player1Button, NULL, &player1ButtonPos);
+					}
 
-					//prepare 2 player button
-					SDL_RenderCopy(renderer, player2Button, NULL, &player2ButtonPos);
+					if(players2Over)
+					{
+						//prepare 2 player button
+						SDL_RenderCopy(renderer, player2OButton, NULL, &player2ButtonPos);
+					}else
+					{
+						//prepare 2 player button
+						SDL_RenderCopy(renderer, player2Button, NULL, &player2ButtonPos);
+					}
 
-					//prepare quit button
-					SDL_RenderCopy(renderer, quitN, NULL, &quitPos);
+					if(quitOver)
+					{
+						//prepare quit button
+						SDL_RenderCopy(renderer, quitO, NULL, &quitPos);
+					}else
+					{
+						//prepare quit button
+						SDL_RenderCopy(renderer, quitN, NULL, &quitPos);
+					}
 
 					//prepare cursor
 					SDL_RenderCopy(renderer, cursor, NULL, &cursorPos);
@@ -696,7 +828,7 @@ int main(int argc, char* argv[]) {
 					} // end poll event
 
 					// Update Section
-					updateBackground();
+					updateBackground(deltaTime);
 
 
 					// Draw Section
@@ -783,7 +915,7 @@ int main(int argc, char* argv[]) {
 
 
 					// Update Section
-					updateBackground();
+					updateBackground(deltaTime);
 
 
 					// Draw Section
@@ -864,7 +996,7 @@ int main(int argc, char* argv[]) {
 
 
 						// Update Section
-						updateBackground();
+						updateBackground(deltaTime);
 
 
 						// Draw Section
@@ -935,7 +1067,7 @@ int main(int argc, char* argv[]) {
 							} // end poll event
 
 							// Update Section
-							updateBackground();
+							updateBackground(deltaTime);
 
 
 							// Draw Section
@@ -1009,7 +1141,7 @@ int main(int argc, char* argv[]) {
 								} // end poll event
 
 								// Update Section
-								updateBackground();
+								updateBackground(deltaTime);
 
 
 								// Draw Section
