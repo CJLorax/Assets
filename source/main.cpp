@@ -373,35 +373,138 @@ int main(int argc, char* argv[]) {
     quitPos.x = 1024/2 - quitPos.w/2;
 
     // quit over image
-    	imagePath = s_cwd_images + "cursor.png";
+	imagePath = s_cwd_images + "cursor.png";
 
-    	// create a SDL surface
-    	surface = IMG_Load(imagePath.c_str());
+	// create a SDL surface
+	surface = IMG_Load(imagePath.c_str());
 
-    	// create player 1 over texture
-    	SDL_Texture *cursor;
+	// create player 1 over texture
+	SDL_Texture *cursor;
 
-    	// place surface into the texture
-    	cursor = SDL_CreateTextureFromSurface(renderer, surface);
+	// place surface into the texture
+	cursor = SDL_CreateTextureFromSurface(renderer, surface);
 
-    	// free the surface
-    	SDL_FreeSurface(surface);
+	// free the surface
+	SDL_FreeSurface(surface);
 
-    	SDL_Rect cursorPos, activePos;
+	SDL_Rect cursorPos, activePos;
 
-    	cursorPos.x = 0;
-    	cursorPos.y = 0;
-    	cursorPos.w = 71;
-    	cursorPos.h = 74;
+	cursorPos.x = 0;
+	cursorPos.y = 0;
+	cursorPos.w = 71;
+	cursorPos.h = 74;
 
-    	activePos.x = 10;
-    	activePos.y = 10;
-    	activePos.w = 10;
-    	activePos.h = 10;
+	activePos.x = 10;
+	activePos.y = 10;
+	activePos.w = 10;
+	activePos.h = 10;
 
-    	int cursorSpeed = 400;
+	int cursorSpeed = 400;
+
+	// quit over image
+	imagePath = s_cwd_images + "instructText.png";
+
+	// create a SDL surface
+	surface = IMG_Load(imagePath.c_str());
+
+	// create player 1 over texture
+	SDL_Texture *instructText;
+
+	// place surface into the texture
+	instructText = SDL_CreateTextureFromSurface(renderer, surface);
+
+	// free the surface
+	SDL_FreeSurface(surface);
+
+	SDL_Rect instructTextPos;
 
 
+	instructTextPos.y = 40;
+	instructTextPos.w = 502;
+	instructTextPos.h = 377;
+	instructTextPos.x = 1024/2 - instructTextPos.w/2;
+
+
+	// quit over image
+	imagePath = s_cwd_images + "menuSmallN.png";
+
+	// create a SDL surface
+	surface = IMG_Load(imagePath.c_str());
+
+	// create player 1 over texture
+	SDL_Texture *menuSmallN;
+
+	// place surface into the texture
+	menuSmallN = SDL_CreateTextureFromSurface(renderer, surface);
+
+	// free the surface
+	SDL_FreeSurface(surface);
+
+	SDL_Rect menuPos;
+
+	menuPos.x = 793;
+	menuPos.y = 703;
+	menuPos.w = 214;
+	menuPos.h = 42;
+
+	// quit over image
+	imagePath = s_cwd_images + "menuSmallO.png";
+
+	// create a SDL surface
+	surface = IMG_Load(imagePath.c_str());
+
+	// create player 1 over texture
+	SDL_Texture *menuSmallO;
+
+	// place surface into the texture
+	menuSmallO = SDL_CreateTextureFromSurface(renderer, surface);
+
+	// free the surface
+	SDL_FreeSurface(surface);
+
+	// quit over image
+	imagePath = s_cwd_images + "winText.png";
+
+	// create a SDL surface
+	surface = IMG_Load(imagePath.c_str());
+
+	// create player 1 over texture
+	SDL_Texture *winText;
+
+	// place surface into the texture
+	winText = SDL_CreateTextureFromSurface(renderer, surface);
+
+	// free the surface
+	SDL_FreeSurface(surface);
+
+	SDL_Rect winTextPos;
+
+	winTextPos.y = 40;
+	winTextPos.w = 493;
+	winTextPos.h = 378;
+	winTextPos.x = 1024/2 - winTextPos.w/2;
+
+	// quit over image
+	imagePath = s_cwd_images + "loseText.png";
+
+	// create a SDL surface
+	surface = IMG_Load(imagePath.c_str());
+
+	// create player 1 over texture
+	SDL_Texture *loseText;
+
+	// place surface into the texture
+	loseText = SDL_CreateTextureFromSurface(renderer, surface);
+
+	// free the surface
+	SDL_FreeSurface(surface);
+
+	SDL_Rect loseTextPos;
+
+	loseTextPos.y = 40;
+	loseTextPos.w = 494;
+	loseTextPos.h = 378;
+	loseTextPos.x = 1024/2 - loseTextPos.w/2;
 
     // ********** Menu Graphics *************
 
@@ -556,6 +659,12 @@ int main(int argc, char* argv[]) {
 
 				while(instructions)
 				{
+
+					// create deltaTime
+					thisTime = SDL_GetTicks();
+					deltaTime = (float)(thisTime - lastTime)/1000;
+					lastTime = thisTime;
+
 					// check for input
 					if (SDL_PollEvent(&event)) {
 
@@ -585,6 +694,34 @@ int main(int argc, char* argv[]) {
 								break;
 						} // end switch for instructions event.type
 					} // end poll event
+
+					// Update Section
+					updateBackground();
+
+
+					// Draw Section
+					//clear the old buffer
+					SDL_RenderClear(renderer);
+
+					//prepare bkgd1
+					SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
+
+					//prepare bkgd2
+					SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
+
+					//prepare title
+					SDL_RenderCopy(renderer, instructText, NULL, &instructTextPos);
+
+					//prepare title
+					SDL_RenderCopy(renderer, menuSmallN, NULL, &menuPos);
+
+					//prepare cursor
+					SDL_RenderCopy(renderer, cursor, NULL, &cursorPos);
+
+					// draw new info to the screen
+					SDL_RenderPresent(renderer);
+
+
 				} // end "instructions" while
 				break;
 
@@ -599,6 +736,12 @@ int main(int argc, char* argv[]) {
 
 				while(players1)
 				{
+
+					// create deltaTime
+					thisTime = SDL_GetTicks();
+					deltaTime = (float)(thisTime - lastTime)/1000;
+					lastTime = thisTime;
+
 					// check for input
 					if (SDL_PollEvent(&event)) {
 
@@ -637,6 +780,28 @@ int main(int argc, char* argv[]) {
 								break;
 						} // end switch for players1 event.type
 					} // end poll event
+
+
+					// Update Section
+					updateBackground();
+
+
+					// Draw Section
+					//clear the old buffer
+					SDL_RenderClear(renderer);
+
+					//prepare bkgd1
+					SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
+
+					//prepare bkgd2
+					SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
+
+					//prepare title
+					SDL_RenderCopy(renderer, player1Button, NULL, &player1ButtonPos);
+
+					// draw new info to the screen
+					SDL_RenderPresent(renderer);
+
 				} // end "players1" while
 				break;
 
@@ -653,6 +818,11 @@ int main(int argc, char* argv[]) {
 
 					while(players2)
 					{
+						// create deltaTime
+						thisTime = SDL_GetTicks();
+						deltaTime = (float)(thisTime - lastTime)/1000;
+						lastTime = thisTime;
+
 						// check for input
 						if (SDL_PollEvent(&event)) {
 
@@ -691,6 +861,29 @@ int main(int argc, char* argv[]) {
 									break;
 							} // end switch for players2 event.type
 						} // end poll event
+
+
+						// Update Section
+						updateBackground();
+
+
+						// Draw Section
+						//clear the old buffer
+						SDL_RenderClear(renderer);
+
+						//prepare bkgd1
+						SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
+
+						//prepare bkgd2
+						SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
+
+						//prepare title
+						SDL_RenderCopy(renderer, player2Button, NULL, &player2ButtonPos);
+
+						// draw new info to the screen
+						SDL_RenderPresent(renderer);
+
+
 					} // end "players2" while
 					break;
 
@@ -705,6 +898,12 @@ int main(int argc, char* argv[]) {
 
 						while(win)
 						{
+
+							// create deltaTime
+							thisTime = SDL_GetTicks();
+							deltaTime = (float)(thisTime - lastTime)/1000;
+							lastTime = thisTime;
+
 							// check for input
 							if (SDL_PollEvent(&event)) {
 
@@ -734,6 +933,31 @@ int main(int argc, char* argv[]) {
 										break;
 								} // end switch for win event.type
 							} // end poll event
+
+							// Update Section
+							updateBackground();
+
+
+							// Draw Section
+							//clear the old buffer
+							SDL_RenderClear(renderer);
+
+							//prepare bkgd1
+							SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
+
+							//prepare bkgd2
+							SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
+
+							//prepare title
+							SDL_RenderCopy(renderer, winText, NULL, &winTextPos);
+
+							//prepare title
+							SDL_RenderCopy(renderer, menuSmallN, NULL, &menuPos);
+
+							// draw new info to the screen
+							SDL_RenderPresent(renderer);
+
+
 						} // end "win" while
 						break;
 
@@ -748,6 +972,12 @@ int main(int argc, char* argv[]) {
 
 							while(lose)
 							{
+
+								// create deltaTime
+								thisTime = SDL_GetTicks();
+								deltaTime = (float)(thisTime - lastTime)/1000;
+								lastTime = thisTime;
+
 								// check for input
 								if (SDL_PollEvent(&event)) {
 
@@ -777,6 +1007,30 @@ int main(int argc, char* argv[]) {
 											break;
 									} // end switch for win event.type
 								} // end poll event
+
+								// Update Section
+								updateBackground();
+
+
+								// Draw Section
+								//clear the old buffer
+								SDL_RenderClear(renderer);
+
+								//prepare bkgd1
+								SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
+
+								//prepare bkgd2
+								SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
+
+								//prepare title
+								SDL_RenderCopy(renderer, loseText, NULL, &loseTextPos);
+
+								//prepare title
+								SDL_RenderCopy(renderer, menuSmallN, NULL, &menuPos);
+
+								// draw new info to the screen
+								SDL_RenderPresent(renderer);
+
 							} // end "win" while
 							break;
 
