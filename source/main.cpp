@@ -1066,17 +1066,29 @@ int main(int argc, char* argv[]) {
 											{
 												win = false;
 												gameState = MENU;
+												menuOver = false;
 												//cout << "TEST A" << endl;
 
 											}
 										}
 
 										break;
+
+									case SDL_CONTROLLERAXISMOTION:
+
+									moveCursor(event.caxis);
+
+									break;
 								} // end switch for win event.type
 							} // end poll event
 
 							// Update Section
 							updateBackground(deltaTime);
+
+							updateCursor(deltaTime);
+
+							// check for collision between cursor and buttons
+							menuOver = SDL_HasIntersection(&activePos, &menuPos);
 
 
 							// Draw Section
@@ -1092,8 +1104,18 @@ int main(int argc, char* argv[]) {
 							//prepare title
 							SDL_RenderCopy(renderer, winText, NULL, &winTextPos);
 
-							//prepare title
-							SDL_RenderCopy(renderer, menuSmallN, NULL, &menuPos);
+							if(menuOver)
+							{
+								//prepare quit button
+								SDL_RenderCopy(renderer, menuSmallO, NULL, &menuPos);
+							}else
+							{
+								//prepare quit button
+								SDL_RenderCopy(renderer, menuSmallN, NULL, &menuPos);
+							}
+
+							//prepare cursor
+							SDL_RenderCopy(renderer, cursor, NULL, &cursorPos);
 
 							// draw new info to the screen
 							SDL_RenderPresent(renderer);
@@ -1140,18 +1162,29 @@ int main(int argc, char* argv[]) {
 												{
 													lose = false;
 													gameState = MENU;
+													menuOver = false;
 													//cout << "TEST A" << endl;
 
 												}
 											}
 
 											break;
+
+										case SDL_CONTROLLERAXISMOTION:
+
+										moveCursor(event.caxis);
+
+										break;
 									} // end switch for win event.type
 								} // end poll event
 
 								// Update Section
 								updateBackground(deltaTime);
 
+								updateCursor(deltaTime);
+
+								// check for collision between cursor and buttons
+								menuOver = SDL_HasIntersection(&activePos, &menuPos);
 
 								// Draw Section
 								//clear the old buffer
@@ -1166,8 +1199,18 @@ int main(int argc, char* argv[]) {
 								//prepare title
 								SDL_RenderCopy(renderer, loseText, NULL, &loseTextPos);
 
-								//prepare title
-								SDL_RenderCopy(renderer, menuSmallN, NULL, &menuPos);
+								if(menuOver)
+								{
+									//prepare quit button
+									SDL_RenderCopy(renderer, menuSmallO, NULL, &menuPos);
+								}else
+								{
+									//prepare quit button
+									SDL_RenderCopy(renderer, menuSmallN, NULL, &menuPos);
+								}
+
+								//prepare cursor
+								SDL_RenderCopy(renderer, cursor, NULL, &cursorPos);
 
 								// draw new info to the screen
 								SDL_RenderPresent(renderer);
