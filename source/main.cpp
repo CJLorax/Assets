@@ -208,7 +208,7 @@ int main(int argc, char* argv[]) {
 
 
     // title image
-    string imagePath = s_cwd_images + "title.png";
+    string imagePath = s_cwd_images + "mainTitle.png";
 
     // create a SDL surface
     surface = IMG_Load(imagePath.c_str());
@@ -224,8 +224,8 @@ int main(int argc, char* argv[]) {
 
 
     titlePos.y = 40;
-    titlePos.w = 499;
-    titlePos.h = 90;
+    titlePos.w = 487;
+    titlePos.h = 93;
     titlePos.x = 1024/2 - titlePos.w/2;
 
     // instructions image
@@ -260,12 +260,12 @@ int main(int argc, char* argv[]) {
 
 
     instructPos.y = 220;
-    instructPos.w = 402;
-    instructPos.h = 54;
+    instructPos.w = 362;
+    instructPos.h = 62;
     instructPos.x = 1024/2 - instructPos.w/2;
 
     // player 1 image
-    imagePath = s_cwd_images + "1playerN.png";
+    imagePath = s_cwd_images + "oneN.png";
 
     // create a SDL surface
     surface = IMG_Load(imagePath.c_str());
@@ -280,7 +280,7 @@ int main(int argc, char* argv[]) {
     SDL_FreeSurface(surface);
 
     // player 1 over image
-    imagePath = s_cwd_images + "1playerO.png";
+    imagePath = s_cwd_images + "oneO.png";
 
     // create a SDL surface
     surface = IMG_Load(imagePath.c_str());
@@ -296,12 +296,12 @@ int main(int argc, char* argv[]) {
 
 
     player1ButtonPos.y = 330;
-    player1ButtonPos.w = 569;
-    player1ButtonPos.h = 71;
+    player1ButtonPos.w = 494;
+    player1ButtonPos.h = 69;
     player1ButtonPos.x = 1024/2 - player1ButtonPos.w/2;
 
     // player 2 image
-    imagePath = s_cwd_images + "2playersN.png";
+    imagePath = s_cwd_images + "twoN.png";
 
     // create a SDL surface
     surface = IMG_Load(imagePath.c_str());
@@ -316,7 +316,7 @@ int main(int argc, char* argv[]) {
     SDL_FreeSurface(surface);
 
 	// player 1 over image
-	imagePath = s_cwd_images + "2playersO.png";
+	imagePath = s_cwd_images + "twoO.png";
 
 	// create a SDL surface
 	surface = IMG_Load(imagePath.c_str());
@@ -332,8 +332,8 @@ int main(int argc, char* argv[]) {
 
 
     player2ButtonPos.y = 445;
-    player2ButtonPos.w = 576;
-    player2ButtonPos.h = 71;
+    player2ButtonPos.w = 502;
+    player2ButtonPos.h = 69;
     player2ButtonPos.x = 1024/2 - player2ButtonPos.w/2;
 
     // quit image
@@ -368,8 +368,8 @@ int main(int argc, char* argv[]) {
 
 
     quitPos.y = 555;
-    quitPos.w = 354;
-    quitPos.h = 64;
+    quitPos.w = 299;
+    quitPos.h = 69;
     quitPos.x = 1024/2 - quitPos.w/2;
 
 
