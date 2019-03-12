@@ -391,8 +391,8 @@ int main(int argc, char* argv[]) {
 
     	cursorPos.x = 0;
     	cursorPos.y = 0;
-    	cursorPos.w = 96;
-    	cursorPos.h = 108;
+    	cursorPos.w = 71;
+    	cursorPos.h = 74;
 
     	activePos.x = 10;
     	activePos.y = 10;
