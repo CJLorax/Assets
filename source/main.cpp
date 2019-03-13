@@ -598,15 +598,22 @@ int main(int argc, char* argv[]) {
     // ********** Menu Graphics *************
 
 
-
-	// set up a game controller variable
-	SDL_GameController *gameController = NULL;
-
-	// open the game controller
-	gameController = SDL_GameControllerOpen(0);
-
 	// turn on controller events
 	SDL_GameControllerEventState(SDL_ENABLE);
+
+	// set up a game controller variable
+	SDL_GameController *gameController0 = NULL;
+
+	// open the game controller
+	gameController0 = SDL_GameControllerOpen(0);
+
+	// set up a game controller variable
+	SDL_GameController *gameController1 = NULL;
+
+	// open the game controller
+	gameController1 = SDL_GameControllerOpen(1);
+
+
 
 	// SDL event to handle input
 	SDL_Event event;
@@ -630,12 +637,12 @@ int main(int argc, char* argv[]) {
 			case MENU:
 
 				menu = true;
-/*				cout << "The Game State is MENU" << endl;
+				cout << "The Game State is MENU" << endl;
 				cout << "Press the A Button for Instructions" << endl;
 				cout << "Press the B Button for 1 Player Game" << endl;
 				cout << "Press the X Button for 2 Player Game" << endl;
 				cout << "Press the Y Button for Quit Game" << endl;
-				cout << " " << endl;*/
+				cout << " " << endl;
 
 				while(menu)
 				{
@@ -690,7 +697,9 @@ int main(int argc, char* argv[]) {
 
 							case SDL_CONTROLLERAXISMOTION:
 
-								moveCursor(event.caxis);
+								if(event.cdevice.which == 0){
+									moveCursor(event.caxis);
+								}
 
 								break;
 
@@ -778,9 +787,9 @@ int main(int argc, char* argv[]) {
 			case INSTRUCTIONS:
 
 				instructions = true;
-/*				cout << "The Game State is INSTRUCTIONS" << endl;
+				cout << "The Game State is INSTRUCTIONS" << endl;
 				cout << "Press the A Button for Main Menu" << endl;
-				cout << " " << endl;*/
+				cout << " " << endl;
 
 				while(instructions)
 				{
@@ -821,7 +830,9 @@ int main(int argc, char* argv[]) {
 
 							case SDL_CONTROLLERAXISMOTION:
 
-								moveCursor(event.caxis);
+								if(event.cdevice.which == 0){
+									moveCursor(event.caxis);
+								}
 
 								break;
 						} // end switch for instructions event.type
@@ -873,10 +884,10 @@ int main(int argc, char* argv[]) {
 			case PLAYERS1:
 
 				players1 = true;
-/*				cout << "The Game State is PLAYERS1" << endl;
+				cout << "The Game State is PLAYERS1" << endl;
 				cout << "Press the A Button for WIN screen" << endl;
 				cout << "Press the B Button for LOSE screen" << endl;
-				cout << " " << endl;*/
+				cout << " " << endl;
 
 				while(players1)
 				{
@@ -967,10 +978,10 @@ int main(int argc, char* argv[]) {
 				case PLAYERS2:
 
 					players2 = true;
-//					cout << "The Game State is PLAYERS2" << endl;
-//					cout << "Press the A Button for WIN screen" << endl;
-//					cout << "Press the B Button for LOSE screen" << endl;
-//					cout << " " << endl;
+					cout << "The Game State is PLAYERS2" << endl;
+					cout << "Press the A Button for WIN screen" << endl;
+					cout << "Press the B Button for LOSE screen" << endl;
+					cout << " " << endl;
 
 					while(players2)
 					{
@@ -993,7 +1004,7 @@ int main(int argc, char* argv[]) {
 							{
 								case SDL_CONTROLLERBUTTONDOWN:
 									// checks to see if this is controller 0
-									if(event.cdevice.which == 0)
+									if(event.cdevice.which == 0 || event.cdevice.which == 1)
 									{
 										// if A button - WIN
 										if(event.cbutton.button == SDL_CONTROLLER_BUTTON_X)
@@ -1066,9 +1077,9 @@ int main(int argc, char* argv[]) {
 					case WIN:
 
 						win = true;
-/*						cout << "The Game State is WIN" << endl;
+						cout << "The Game State is WIN" << endl;
 						cout << "Press the A Button for Main Menu" << endl;
-						cout << " " << endl;*/
+						cout << " " << endl;
 
 						while(win)
 						{
@@ -1109,7 +1120,9 @@ int main(int argc, char* argv[]) {
 
 									case SDL_CONTROLLERAXISMOTION:
 
-									moveCursor(event.caxis);
+										if(event.cdevice.which == 0){
+											moveCursor(event.caxis);
+										}
 
 									break;
 								} // end switch for win event.type
@@ -1162,9 +1175,9 @@ int main(int argc, char* argv[]) {
 						case LOSE:
 
 							lose = true;
-/*							cout << "The Game State is LOSE" << endl;
+							cout << "The Game State is LOSE" << endl;
 							cout << "Press the A Button for Main Menu" << endl;
-							cout << " " << endl;*/
+							cout << " " << endl;
 
 							while(lose)
 							{
@@ -1205,7 +1218,9 @@ int main(int argc, char* argv[]) {
 
 										case SDL_CONTROLLERAXISMOTION:
 
-										moveCursor(event.caxis);
+											if(event.cdevice.which == 0){
+												moveCursor(event.caxis);
+											}
 
 										break;
 									} // end switch for win event.type
