@@ -233,7 +233,8 @@ int main(int argc, char* argv[]) {
     // create renderer
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    Player player1 = Player(renderer, 0, s_cwd_images.c_str(), 250.0, 500.0);
+    Player player1 = Player(renderer, 0, s_cwd_images.c_str(), 250.0, 700.0);
+    Player player2 = Player(renderer, 1, s_cwd_images.c_str(), 685.0, 700.0);
 
 
 // ********** red proto graphic *************
@@ -995,7 +996,7 @@ int main(int argc, char* argv[]) {
 									if(event.cdevice.which == 0)
 									{
 										// if A button - WIN
-										if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+										if(event.cbutton.button == SDL_CONTROLLER_BUTTON_X)
 										{
 											players2 = false;
 											gameState = WIN;
@@ -1004,22 +1005,36 @@ int main(int argc, char* argv[]) {
 										}
 
 										// if B button - LOSE
-										if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+										if(event.cbutton.button == SDL_CONTROLLER_BUTTON_Y)
 										{
 											players2 = false;
 											gameState = LOSE;
 											//cout << "TEST B" << endl;
 
 										}
+
+										player1.OnControllerButton(event.cbutton);
+										player2.OnControllerButton(event.cbutton);
 									}
 
 									break;
+
+								case SDL_CONTROLLERAXISMOTION:
+
+										player1.OnControllerAxis(event.caxis);
+										player2.OnControllerAxis(event.caxis);
+
+										break;
 							} // end switch for players2 event.type
 						} // end poll event
 
 
 						// Update Section
 						updateBackground(deltaTime);
+
+						player1.Update(deltaTime);
+
+						player2.Update(deltaTime);
 
 
 						// Draw Section
@@ -1031,6 +1046,10 @@ int main(int argc, char* argv[]) {
 
 						//prepare bkgd2
 						SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
+
+						player1.Draw(renderer);
+
+						player2.Draw(renderer);
 
 						//prepare title
 						SDL_RenderCopy(renderer, player2Button, NULL, &player2ButtonPos);
