@@ -48,9 +48,13 @@ Player::Player(SDL_Renderer *renderer, int pNum, string filePath, float x, float
 		bulletPath = filePath + "bullet2.png";
 	}
 
+	cout << bulletPath << endl;
+
+
+
 	for(int i = 0; i < 10; i++)
 	{
-		Bullet tempBullet(renderer, bulletPath, -1000, -1000);
+		Bullet tempBullet(renderer, bulletPath, i + 5, i + 5);
 
 		bulletList.push_back(tempBullet);
 	}
@@ -139,9 +143,9 @@ void Player::CreateBullet()
 		{
 			bulletList[i].active = true;
 
-			bulletList[i].posRect.x = (pos_X + posRect.w/2);
+			bulletList[i].posRect.x = (pos_X + (posRect.w/2));
 
-			bulletList[i].posRect.x = (bulletList[i].posRect.x - bulletList[i].posRect.w/2);
+			bulletList[i].posRect.x = (bulletList[i].posRect.x - (bulletList[i].posRect.w/2));
 
 			bulletList[i].posRect.y = posRect.y;
 
@@ -227,6 +231,7 @@ void Player::Draw(SDL_Renderer *renderer){
 			bulletList[i].Draw(renderer);
 		}
 	}
+
 
 }
 

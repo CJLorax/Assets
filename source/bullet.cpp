@@ -1,15 +1,17 @@
 #include "bullet.h"
 
 
-Bullet::Bullet(SDL_Renderer *renderer, string filePath, float x, float y)
+Bullet::Bullet(SDL_Renderer *renderer, string bulletPath, float x, float y)
 {
 	active = false;
 
 	speed = 800.0;
 
-	SDL_Surface *surface = IMG_Load(filePath.c_str());
+	SDL_Surface *surface = IMG_Load(bulletPath.c_str());
 
 	texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+	if( texture == NULL ) { printf( "Unable to load image %s! SDL_image Error: %s\n", bulletPath.c_str(), IMG_GetError() ); }
 
 	SDL_FreeSurface(surface);
 
@@ -37,7 +39,7 @@ void Bullet::Update(float deltaTime)
 	{
 		pos_Y += (speed * yDir) * deltaTime;
 
-		posRect.y = (int)(pos_Y * 0.5f);
+		posRect.y = (int)(pos_Y + 0.5f);
 
 		if(posRect.y < (0 - posRect.h))
 		{
@@ -56,5 +58,5 @@ void Bullet::Draw(SDL_Renderer *renderer){
 
 Bullet::~Bullet()
 {
-	SDL_DestroyTexture(texture);
+	//SDL_DestroyTexture(texture);
 }

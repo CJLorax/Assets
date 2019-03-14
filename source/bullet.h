@@ -51,7 +51,7 @@ public:
 
 	float pos_X, pos_Y;
 
-	Bullet(SDL_Renderer *renderer, string filePath, float x, float y);
+	Bullet(SDL_Renderer *renderer, string bulletPath, float x, float y);
 
 	void Update(float deltaTime);
 
