@@ -188,6 +188,7 @@ int main(int argc, char* argv[]) {
 	string s_cwd_audio = s_cwd + "/Assets/audio/";
 
 	cout << s_cwd_images << endl;
+	cout << s_cwd_audio << endl;
 #endif
 
 #if defined(__linux__)
@@ -635,7 +636,11 @@ int main(int argc, char* argv[]) {
 
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
-	Mix_Music *bgm = Mix_LoadMUS((s_cwd_audio + "tension.mp3").c_str());
+	//string musicPath = (s_cwd_audio + "tension.mp3").c_str();
+
+	//cout << musicPath << endl;
+
+	Mix_Music *bgm = Mix_LoadMUS((s_cwd_audio + "battle.wav").c_str());
 
 	if(!Mix_PlayingMusic())
 	{
