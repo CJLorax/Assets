@@ -40,6 +40,21 @@ Player::Player(SDL_Renderer *renderer, int pNum, string filePath, float x, float
 	xDir = 0;
 	yDir = 0;
 
+	string bulletPath;
+
+	if(playerNum == 0){
+		bulletPath = filePath + "bullet1.png";
+	}else{
+		bulletPath = filePath + "bullet2.png";
+	}
+
+	for(int i = 0; i < 10; i++)
+	{
+		Bullet tempBullet(renderer, bulletPath, -1000, -1000);
+
+		bulletList.push_back(tempBullet);
+	}
+
 }
 
 void Player::OnControllerAxis(const SDL_ControllerAxisEvent event)
@@ -115,6 +130,31 @@ void Player::OnControllerAxis(const SDL_ControllerAxisEvent event)
 	}
 }
 
+void Player::CreateBullet()
+{
+
+	for(int i = 0; i < bulletList.size(); i++)
+	{
+		if(bulletList[i].active == false)
+		{
+			bulletList[i].active = true;
+
+			bulletList[i].posRect.x = (pos_X + posRect.w/2);
+
+			bulletList[i].posRect.x = (bulletList[i].posRect.x - bulletList[i].posRect.w/2);
+
+			bulletList[i].posRect.y = posRect.y;
+
+			bulletList[i].pos_X = pos_X;
+
+			bulletList[i].pos_Y = pos_Y;
+
+			break;
+		}
+	}
+
+}
+
 void Player::OnControllerButton(const SDL_ControllerButtonEvent event)
 {
 	if(event.which == 0 && playerNum == 0)
@@ -122,6 +162,8 @@ void Player::OnControllerButton(const SDL_ControllerButtonEvent event)
 		if(event.button == 0)
 		{
 			cout << "player 1 Button A" << endl;
+
+			CreateBullet();
 		}
 	}
 
@@ -130,6 +172,8 @@ void Player::OnControllerButton(const SDL_ControllerButtonEvent event)
 		if(event.button == 0)
 		{
 			cout << "player 2 Button A" << endl;
+
+			CreateBullet();
 		}
 	}
 }
@@ -162,11 +206,27 @@ void Player::Update(float deltaTime)
 		pos_Y = posRect.y;
 	}
 
+	for(int i = 0; i < bulletList.size(); i++)
+	{
+		if(bulletList[i].active == true)
+		{
+			bulletList[i].Update(deltaTime);
+		}
+	}
+
 }
 
 void Player::Draw(SDL_Renderer *renderer){
 
 	SDL_RenderCopy(renderer, texture, NULL, &posRect);
+
+	for(int i = 0; i < bulletList.size(); i++)
+	{
+		if(bulletList[i].active == true)
+		{
+			bulletList[i].Draw(renderer);
+		}
+	}
 
 }
 

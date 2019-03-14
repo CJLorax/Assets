@@ -42,6 +42,8 @@
 #include <iostream>
 using namespace std;
 
+
+
 // variables for the background movement and position
 int bkgdSpeed = 100;
 
