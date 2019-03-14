@@ -650,6 +650,12 @@ int main(int argc, char* argv[]) {
 		Mix_PlayMusic(bgm, -1);
 	}
 
+	Mix_Chunk *overSound = Mix_LoadWAV((s_cwd_audio + "over.wav").c_str());
+
+	Mix_Chunk *pressedSound = Mix_LoadWAV((s_cwd_audio + "pressed.wav").c_str());
+
+	bool alreadyOver = false;
+
 
 
 	// enter program loop
@@ -745,6 +751,20 @@ int main(int argc, char* argv[]) {
 					players2Over = SDL_HasIntersection(&activePos, &player2ButtonPos);
 					instructionsOver = SDL_HasIntersection(&activePos, &instructPos);
 					quitOver = SDL_HasIntersection(&activePos, &quitPos);
+
+					if(players1Over || players2Over || instructionsOver || quitOver)
+					{
+						if(alreadyOver == false)
+						{
+							Mix_PlayChannel(-1, overSound, 0);
+							alreadyOver = true;
+						}
+					}
+
+					if(!players1Over && !players2Over && !instructionsOver && !quitOver)
+					{
+						alreadyOver = false;
+					}
 
 					// Draw Section
 					//clear the old buffer
