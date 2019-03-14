@@ -242,8 +242,7 @@ int main(int argc, char* argv[]) {
     // create renderer
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    Player player1 = Player(renderer, 0, s_cwd_images.c_str(), 250.0, 700.0);
-    Player player2 = Player(renderer, 1, s_cwd_images.c_str(), 685.0, 700.0);
+
 
 
 // ********** red proto graphic *************
@@ -656,6 +655,8 @@ int main(int argc, char* argv[]) {
 
 	bool alreadyOver = false;
 
+    Player player1 = Player(renderer, 0, s_cwd_images.c_str(), s_cwd_audio.c_str(), 250.0, 700.0);
+    Player player2 = Player(renderer, 1, s_cwd_images.c_str(), s_cwd_audio.c_str(), 685.0, 700.0);
 
 
 	// enter program loop
@@ -666,6 +667,8 @@ int main(int argc, char* argv[]) {
 		switch(gameState)
 		{
 			case MENU:
+
+				alreadyOver = false;
 
 				menu = true;
 				cout << "The Game State is MENU" << endl;
@@ -705,20 +708,23 @@ int main(int argc, char* argv[]) {
 										if(players1Over){
 											Mix_PlayChannel(-1, overSound, 0);
 											menu = false;
-											gameState = PLAYERS1;
 											players1Over = false;
+											gameState = PLAYERS1;
+
 										}
 										if(players2Over){
 											Mix_PlayChannel(-1, overSound, 0);
 											menu = false;
-											gameState = PLAYERS2;
 											players2Over = false;
+											gameState = PLAYERS2;
+
 										}
 										if(instructionsOver){
 											Mix_PlayChannel(-1, overSound, 0);
 											menu = false;
-											gameState = INSTRUCTIONS;
 											instructionsOver = false;
+											gameState = INSTRUCTIONS;
+
 										}
 										if(quitOver){
 											Mix_PlayChannel(-1, overSound, 0);
@@ -836,6 +842,8 @@ int main(int argc, char* argv[]) {
 			//INSTRUCTIONS SCREEN
 			case INSTRUCTIONS:
 
+				alreadyOver = false;
+
 				instructions = true;
 				cout << "The Game State is INSTRUCTIONS" << endl;
 				cout << "Press the A Button for Main Menu" << endl;
@@ -868,6 +876,7 @@ int main(int argc, char* argv[]) {
 									// if A button - Main Menu
 									if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
 									{
+										Mix_PlayChannel(-1, overSound, 0);
 										instructions = false;
 										gameState = MENU;
 										menuOver = false;
@@ -895,6 +904,20 @@ int main(int argc, char* argv[]) {
 
 					// check for collision between cursor and buttons
 					menuOver = SDL_HasIntersection(&activePos, &menuPos);
+
+					if(menuOver)
+					{
+						if(alreadyOver == false)
+						{
+							Mix_PlayChannel(-1, pressedSound, 0);
+							alreadyOver = true;
+						}
+					}
+
+					if(!menuOver)
+					{
+						alreadyOver = false;
+					}
 
 
 					// Draw Section
@@ -932,6 +955,8 @@ int main(int argc, char* argv[]) {
 
 			// PLAYERS 1
 			case PLAYERS1:
+
+				alreadyOver = false;
 
 				players1 = true;
 				cout << "The Game State is PLAYERS1" << endl;
@@ -1026,6 +1051,8 @@ int main(int argc, char* argv[]) {
 
 				// PLAYERS 2
 				case PLAYERS2:
+
+					alreadyOver = false;
 
 					players2 = true;
 					cout << "The Game State is PLAYERS2" << endl;
@@ -1126,6 +1153,8 @@ int main(int argc, char* argv[]) {
 					// WIN SCREEN
 					case WIN:
 
+						alreadyOver = false;
+
 						win = true;
 						cout << "The Game State is WIN" << endl;
 						cout << "Press the A Button for Main Menu" << endl;
@@ -1158,6 +1187,7 @@ int main(int argc, char* argv[]) {
 											// if A button - Main Menu
 											if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
 											{
+												Mix_PlayChannel(-1, overSound, 0);
 												win = false;
 												gameState = MENU;
 												menuOver = false;
@@ -1185,6 +1215,20 @@ int main(int argc, char* argv[]) {
 
 							// check for collision between cursor and buttons
 							menuOver = SDL_HasIntersection(&activePos, &menuPos);
+
+							if(menuOver){
+
+								if(alreadyOver == false)
+								{
+									Mix_PlayChannel(-1, pressedSound, 0);
+									alreadyOver = true;
+								}
+							}
+
+							if(!menuOver)
+							{
+								alreadyOver = false;
+							}
 
 
 							// Draw Section
@@ -1224,6 +1268,8 @@ int main(int argc, char* argv[]) {
 						// LOSE SCREEN
 						case LOSE:
 
+							alreadyOver = false;
+
 							lose = true;
 							cout << "The Game State is LOSE" << endl;
 							cout << "Press the A Button for Main Menu" << endl;
@@ -1256,6 +1302,7 @@ int main(int argc, char* argv[]) {
 												// if A button - Main Menu
 												if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
 												{
+													Mix_PlayChannel(-1, overSound, 0);
 													lose = false;
 													gameState = MENU;
 													menuOver = false;
@@ -1283,6 +1330,20 @@ int main(int argc, char* argv[]) {
 
 								// check for collision between cursor and buttons
 								menuOver = SDL_HasIntersection(&activePos, &menuPos);
+
+								if(menuOver)
+								{
+									if(alreadyOver == false)
+									{
+										Mix_PlayChannel(-1, pressedSound, 0);
+										alreadyOver = true;
+									}
+								}
+
+								if(!menuOver)
+								{
+									alreadyOver = false;
+								}
 
 								// Draw Section
 								//clear the old buffer

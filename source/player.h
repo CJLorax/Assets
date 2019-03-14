@@ -3,7 +3,7 @@
 	#include <SDL2/SDL.h>
 	#include <SDL2_image/SDL_image.h>
 //	#include <SDL2_net/SDL_net.h>
-//	#include <SDL2_mixer/SDL_mixer.h>
+	#include <SDL2_mixer/SDL_mixer.h>
 //	#include <SDL2_ttf/SDL_ttf.h>
 
 	#include <unistd.h>
@@ -13,7 +13,7 @@
 	#include <SDL2/SDL.h>
 	#include <SDL2/SDL_image.h>
 //	#include <SDL2/SDL_net.h>
-//	#include <SDL2/SDL_mixer.h>
+	#include <SDL2/SDL_mixer.h>
 //	#include <SDL2/SDL_ttf.h>
 
 	#include <unistd.h>
@@ -23,7 +23,7 @@
 	#include <SDL.h>
 	#include <SDL_image.h>
 //	#include <SDL_net.h>
-//	#include <SDL_mixer.h>
+	#include <SDL_mixer.h>
 //	#include <SDL_ttf.h>
 
 	#include <direct.h>
@@ -33,6 +33,7 @@
 
 #include <string>
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 #include <vector>
@@ -41,6 +42,8 @@ using namespace std;
 class Player{
 
 public:
+
+	Mix_Chunk *laser;
 
 	vector<Bullet> bulletList;
 
@@ -60,7 +63,7 @@ public:
 
 	float pos_X, pos_Y;
 
-	Player(SDL_Renderer *renderer, int pNum, string filePath, float x, float y);
+	Player(SDL_Renderer *renderer, int pNum, string filePath,string audioPath, float x, float y);
 
 	void OnControllerAxis(const SDL_ControllerAxisEvent event);
 
