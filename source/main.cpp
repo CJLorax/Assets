@@ -640,7 +640,7 @@ int main(int argc, char* argv[]) {
 
 	//cout << musicPath << endl;
 
-	Mix_Music *bgm = Mix_LoadMUS((s_cwd_audio + "battle.wav").c_str());
+	Mix_Music *bgm = Mix_LoadMUS((s_cwd_audio + "battle.mp3").c_str());
 
 	if(!Mix_PlayingMusic())
 	{
