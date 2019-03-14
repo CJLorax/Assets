@@ -185,6 +185,7 @@ int main(int argc, char* argv[]) {
 	// get current working directory and append the images folder to it
 	string s_cwd(getcwd(NULL,0));
 	string s_cwd_images = s_cwd + "/Assets/images/";
+	string s_cwd_audio = s_cwd + "/Assets/audio/";
 
 	cout << s_cwd_images << endl;
 #endif
@@ -195,6 +196,7 @@ int main(int argc, char* argv[]) {
 	// get current working directory and append the images folder to it
 	string s_cwd(getcwd(NULL,0));
 	string s_cwd_images = s_cwd + "/Assets/images/";
+	string s_cwd_audio = s_cwd + "/Assets/audio/";
 
 	cout << s_cwd_images << endl;
 #endif
@@ -205,6 +207,7 @@ int main(int argc, char* argv[]) {
 	// get current working directory and append the images folder to it
 	string s_cwd(getcwd(NULL, 0));
 	string s_cwd_images = s_cwd + "\\Assets\\images\\";
+	string s_cwd_audio = s_cwd + "\\Assets\\audio\\";
 
 #endif
 
@@ -628,6 +631,18 @@ int main(int argc, char* argv[]) {
 
 	// boolean vars for the individual states
 	bool menu, instructions, players1, players2, win, lose, quit = false;
+
+
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+
+	Mix_Music *bgm = Mix_LoadMUS((s_cwd_audio + "tension.mp3").c_str());
+
+	if(!Mix_PlayingMusic())
+	{
+		Mix_PlayMusic(bgm, -1);
+	}
+
+
 
 	// enter program loop
 
