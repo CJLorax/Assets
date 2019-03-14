@@ -703,21 +703,26 @@ int main(int argc, char* argv[]) {
 									{
 
 										if(players1Over){
+											Mix_PlayChannel(-1, overSound, 0);
 											menu = false;
 											gameState = PLAYERS1;
 											players1Over = false;
 										}
 										if(players2Over){
+											Mix_PlayChannel(-1, overSound, 0);
 											menu = false;
 											gameState = PLAYERS2;
 											players2Over = false;
 										}
 										if(instructionsOver){
+											Mix_PlayChannel(-1, overSound, 0);
 											menu = false;
 											gameState = INSTRUCTIONS;
 											instructionsOver = false;
 										}
 										if(quitOver){
+											Mix_PlayChannel(-1, overSound, 0);
+											SDL_Delay(500);
 											menu = false;
 											quit = true;
 											quitOver = false;
@@ -756,7 +761,7 @@ int main(int argc, char* argv[]) {
 					{
 						if(alreadyOver == false)
 						{
-							Mix_PlayChannel(-1, overSound, 0);
+							Mix_PlayChannel(-1, pressedSound, 0);
 							alreadyOver = true;
 						}
 					}
