@@ -210,6 +210,9 @@ int main(int argc, char* argv[]) {
 	string s_cwd_images = s_cwd + "\\Assets\\images\\";
 	string s_cwd_audio = s_cwd + "\\Assets\\audio\\";
 
+	cout << s_cwd_images << endl;
+	cout << s_cwd_audio << endl;
+
 #endif
 
     SDL_Window *window;                    // Declare a pointer
