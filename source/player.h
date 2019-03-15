@@ -53,7 +53,7 @@ public:
 
 	SDL_Surface *scoreSurface, *livesSurface;
 
-	SDL_Texture *scoreTexture, *livesTextures;
+	SDL_Texture *scoreTexture, *livesTexture;
 
 	SDL_Rect scorePos, livesPos;
 
@@ -90,6 +90,8 @@ public:
 	void Draw(SDL_Renderer *renderer);
 
 	void UpdateScore(SDL_Renderer *renderer);
+
+	void UpdateLives(SDL_Renderer *renderer);
 
 	~Player();
 
