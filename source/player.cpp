@@ -14,6 +14,30 @@ Player::Player(SDL_Renderer *renderer, int pNum, string filePath, string audioPa
 
 	laser = Mix_LoadWAV((audioPath + "laser.wav").c_str());
 
+	oldScore = 0;
+	playerScore = 0;
+	oldLives = 0;
+	playerLives = 3;
+
+	TTF_Init();
+
+	font = TTF_OpenFont((filePath + "SPACEMAN.TTF").c_str(), 20);
+
+	if(playerNum == 0){
+		scorePos.x = scorePos.y = 10;
+		livesPos.x = 10;
+		livesPos.y =40;
+	}else{
+		scorePos.x = 650;
+		scorePos.y = 10;
+		livesPos.x = 650;
+		livesPos.y =40;
+	}
+
+	UpdateScore(renderer);
+
+	//UpdateLives(renderer);
+
 	if(playerNum == 0){
 		playerPath = filePath + "player1.png";
 	}else{
@@ -61,6 +85,30 @@ Player::Player(SDL_Renderer *renderer, int pNum, string filePath, string audioPa
 		bulletList.push_back(tempBullet);
 	}
 
+}
+
+void Player::UpdateScore(SDL_Renderer *renderer)
+{
+	string Result;
+	ostringstream convert;
+	convert << playerScore;
+	Result = convert.str();
+
+	tempScore = "Player Score: " + Result;
+
+	if(playerNum == 0){
+		scoreSurface = TTF_RenderText_Solid(font, tempScore.c_str(), colorP1);
+	}else{
+		scoreSurface = TTF_RenderText_Solid(font, tempScore.c_str(), colorP2);
+	}
+
+	scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
+
+	SDL_QueryTexture(scoreTexture, NULL, NULL, &scorePos.w, &scorePos.h);
+
+	SDL_FreeSurface(scoreSurface);
+
+	oldScore = playerScore;
 }
 
 void Player::OnControllerAxis(const SDL_ControllerAxisEvent event)
@@ -186,7 +234,7 @@ void Player::OnControllerButton(const SDL_ControllerButtonEvent event)
 	}
 }
 
-void Player::Update(float deltaTime)
+void Player::Update(float deltaTime, SDL_Renderer *renderer)
 {
 	pos_X += (speed * xDir) * deltaTime;
 	pos_Y += (speed * yDir) * deltaTime;
@@ -222,6 +270,11 @@ void Player::Update(float deltaTime)
 		}
 	}
 
+	if(playerScore != oldScore)
+	{
+		UpdateScore(renderer);
+	}
+
 }
 
 void Player::Draw(SDL_Renderer *renderer){
@@ -236,12 +289,12 @@ void Player::Draw(SDL_Renderer *renderer){
 		}
 	}
 
-
+	SDL_RenderCopy(renderer, scoreTexture, NULL, &scorePos);
 }
 
 Player::~Player()
 {
-	SDL_DestroyTexture(texture);
+	//SDL_DestroyTexture(texture);
 }
 
 

@@ -1046,7 +1046,7 @@ int main(int argc, char* argv[]) {
 					// Update Section
 					updateBackground(deltaTime);
 
-					player1.Update(deltaTime);
+					player1.Update(deltaTime, renderer);
 
 					for(int i = 0; i < 6; i++)
 					{
@@ -1153,9 +1153,9 @@ int main(int argc, char* argv[]) {
 						// Update Section
 						updateBackground(deltaTime);
 
-						player1.Update(deltaTime);
+						player1.Update(deltaTime, renderer);
 
-						player2.Update(deltaTime);
+						player2.Update(deltaTime, renderer);
 
 
 						// Draw Section

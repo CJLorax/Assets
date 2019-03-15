@@ -4,7 +4,7 @@
 	#include <SDL2_image/SDL_image.h>
 //	#include <SDL2_net/SDL_net.h>
 	#include <SDL2_mixer/SDL_mixer.h>
-//	#include <SDL2_ttf/SDL_ttf.h>
+    #include <SDL2_ttf/SDL_ttf.h>
 
 	#include <unistd.h>
 #endif
@@ -14,7 +14,7 @@
 	#include <SDL2/SDL_image.h>
 //	#include <SDL2/SDL_net.h>
 	#include <SDL2/SDL_mixer.h>
-//	#include <SDL2/SDL_ttf.h>
+	#include <SDL2/SDL_ttf.h>
 
 	#include <unistd.h>
 #endif
@@ -24,7 +24,7 @@
 	#include <SDL_image.h>
 //	#include <SDL_net.h>
 	#include <SDL_mixer.h>
-//	#include <SDL_ttf.h>
+	#include <SDL_ttf.h>
 
 	#include <direct.h>
 	#define getcwd _getcwd
@@ -42,6 +42,22 @@ using namespace std;
 class Player{
 
 public:
+
+	int playerScore, oldScore, playerLives, oldLives;
+
+	TTF_Font *font;
+
+	SDL_Color colorP1 = {0, 255, 0, 255};
+
+	SDL_Color colorP2 = {0, 0, 255, 255};
+
+	SDL_Surface *scoreSurface, *livesSurface;
+
+	SDL_Texture *scoreTexture, *livesTextures;
+
+	SDL_Rect scorePos, livesPos;
+
+	string tempScore, tempLives;
 
 	Mix_Chunk *laser;
 
@@ -69,9 +85,11 @@ public:
 
 	void OnControllerButton(const SDL_ControllerButtonEvent event);
 
-	void Update(float deltaTime);
+	void Update(float deltaTime, SDL_Renderer *renderer);
 
 	void Draw(SDL_Renderer *renderer);
+
+	void UpdateScore(SDL_Renderer *renderer);
 
 	~Player();
 
