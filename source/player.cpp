@@ -219,6 +219,8 @@ void Player::OnControllerButton(const SDL_ControllerButtonEvent event)
 		{
 			cout << "player 1 Button A" << endl;
 
+			playerScore += 10;
+
 			CreateBullet();
 		}
 	}
@@ -228,6 +230,8 @@ void Player::OnControllerButton(const SDL_ControllerButtonEvent event)
 		if(event.button == 0)
 		{
 			cout << "player 2 Button A" << endl;
+
+			playerScore += 10;
 
 			CreateBullet();
 		}
