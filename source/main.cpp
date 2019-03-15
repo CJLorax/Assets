@@ -175,8 +175,19 @@ void updateCursor(float deltaTime)
 bool players1Over = false, players2Over = false, instructionsOver = false, quitOver = false, menuOver = false;
 
 #include "player.h"
+#include "enemy.h"
+#include <vector>
+#include <stdlib.h>
+#include <time.h>
+
+vector<Enemy> enemyList;
+
+
 
 int main(int argc, char* argv[]) {
+
+	srand(time(NULL));
+
 
 
 #if defined(__APPLE__)
@@ -958,7 +969,19 @@ int main(int argc, char* argv[]) {
 
 				alreadyOver = false;
 
+				enemyList.clear();
+
 				players1 = true;
+
+				for(int i = 0; i < 6; i++)
+				{
+					Enemy tempEnemy(renderer, s_cwd_images);
+
+					enemyList.push_back(tempEnemy);
+				}
+
+
+
 				cout << "The Game State is PLAYERS1" << endl;
 				cout << "Press the A Button for WIN screen" << endl;
 				cout << "Press the B Button for LOSE screen" << endl;
@@ -1025,6 +1048,11 @@ int main(int argc, char* argv[]) {
 
 					player1.Update(deltaTime);
 
+					for(int i = 0; i < 6; i++)
+					{
+						enemyList[i].Update(deltaTime);
+					}
+
 
 					// Draw Section
 					//clear the old buffer
@@ -1037,6 +1065,11 @@ int main(int argc, char* argv[]) {
 					SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
 
 					player1.Draw(renderer);
+
+					for(int i = 0; i < 6; i++)
+					{
+						enemyList[i].Draw(renderer);
+					}
 
 					//prepare title
 					SDL_RenderCopy(renderer, player1Button, NULL, &player1ButtonPos);
